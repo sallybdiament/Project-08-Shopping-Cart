@@ -41,24 +41,17 @@ sectionPai.appendChild(createProductItemElement(produto));
 };
 
 setProducts();
-//   const coinsList = document.getElementById('coins-list');
-
-//   coins
-//     .filter((_, index) => index < 10)
-//     .forEach((coin) => {
-//       const newLi = document.createElement('li');
-
-//       newLi.innerText = `${coin.name} (${coin.symbol}): ${coin.priceUsd}`;
-
-//       coinsList.appendChild(newLi);
-//     });
-// }
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  // coloque seu código aqui
+  const botaoAddCarrinho = document.querySelectorAll('.item')[0];
+  botaoAddCarrinho.addEventListener('click', () => {
+    alert('teste');
+  });
 };
+
+// cartItemClickListener();
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
