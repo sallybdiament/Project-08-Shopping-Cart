@@ -12,6 +12,10 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
+const cartItemClickListener = (event) => {
+
+};
+
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -69,9 +73,5 @@ sectionPai.appendChild(createProductItemElement(produto));
 };
 
 setProducts();
-
-// const cartItemClickListener = (event) => {
-
-// };
 
 window.onload = () => { };
