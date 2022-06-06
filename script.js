@@ -12,10 +12,12 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
+// Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement://
 const cartItemClickListener = (event) => {
 event.target.remove();
 };
 
+// Essa função já veio no projeto e ela cria os itens do carrinho de compras e aciona a função para apagar o item quando ele for clicado:  
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -24,6 +26,7 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
+// Essa função já seleciona o Id do item pela classe 'item_sku' e depois usa o fetch para adicionar ao carrinho de compras:
 const getSkuFromProductItem = async (item) => {
   const IdItem = item.querySelector('span.item__sku').innerText;
   const sectionPaiCarrinho = document.getElementsByClassName('cart__items')[0];
@@ -37,25 +40,26 @@ const getSkuFromProductItem = async (item) => {
 sectionPaiCarrinho.appendChild(createCartItemElement(produto));
 };
 
+// Essa função é chamada para adicionar os produtos da API na página:
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   // section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
+  // Aqui eu usei o appendChild do butão para já adicionar o evento de clique e levar ele para o carrinho de compras:
   const botao = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   botao.addEventListener('click', (event) => {
   // console.log(event.target.parentNode); 
   getSkuFromProductItem(event.target.parentNode);
 });
 section.appendChild(botao);
-
   return section;
 };
 
+// Eu criei essa função para buscar na API os produtos de 'computador' e usar o destructuring para pegar as infos que queremos e com a createProductItemElement() jogamos a info na página:
 const setProducts = async () => {
   const sectionPai = document.getElementsByClassName('items')[0];
   const productsComputadores = await fetchProducts('computador');
