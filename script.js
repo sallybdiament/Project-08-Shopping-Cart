@@ -14,7 +14,9 @@ const createCustomElement = (element, className, innerText) => {
 
 // Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement://
 const cartItemClickListener = (event) => {
-event.target.remove();
+const paiDoEventoLi = event.target.parentElement;
+  event.target.remove();
+saveCartItems(paiDoEventoLi.innerHTML);
 };
 
 // Essa função já veio no projeto e ela cria os itens do carrinho de compras e aciona a função para apagar o item quando ele for clicado:  
@@ -38,6 +40,7 @@ const getSkuFromProductItem = async (item) => {
     salePrice: price,
   };
 sectionPaiCarrinho.appendChild(createCartItemElement(produto));
+saveCartItems(sectionPaiCarrinho.innerHTML);
 };
 
 // Essa função é chamada para adicionar os produtos da API na página:
