@@ -39,8 +39,10 @@ const getSkuFromProductItem = async (item) => {
     name: title,
     salePrice: price,
   };
+  // console.log(createCartItemElement(produto));
 sectionPaiCarrinho.appendChild(createCartItemElement(produto));
 saveCartItems(sectionPaiCarrinho.innerHTML);
+// console.log(sectionPaiCarrinho.innerHTML);
 };
 
 // Essa função é chamada para adicionar os produtos da API na página:
@@ -79,6 +81,15 @@ sectionPai.appendChild(createProductItemElement(produto));
 });
 };
 
-setProducts();
+const chamandoGetSavedCart = () => {
+const sectionPaiCarrinho = document.getElementsByClassName('cart__items')[0];
+// if (!getSkuFromProductItem()) {
+//   sectionPaiCarrinho.innerHTML = ''; 
+// }
+console.log(sectionPaiCarrinho);
+sectionPaiCarrinho.innerHTML = getSavedCartItems();
+};
 
-window.onload = () => { };
+// console.log(getSavedCartItems());
+
+window.onload = () => { setProducts(); chamandoGetSavedCart(); };
