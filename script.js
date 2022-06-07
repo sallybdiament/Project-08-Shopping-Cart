@@ -14,7 +14,8 @@ const createCustomElement = (element, className, innerText) => {
 
 // Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement://
 const cartItemClickListener = (event) => {
-const paiDoEventoLi = event.target.parentElement;
+// event.preventDefault();
+  const paiDoEventoLi = event.target.parentElement;
   event.target.remove();
 saveCartItems(paiDoEventoLi.innerHTML);
 };
@@ -83,10 +84,6 @@ sectionPai.appendChild(createProductItemElement(produto));
 
 const chamandoGetSavedCart = () => {
 const sectionPaiCarrinho = document.getElementsByClassName('cart__items')[0];
-// if (!getSkuFromProductItem()) {
-//   sectionPaiCarrinho.innerHTML = ''; 
-// }
-console.log(sectionPaiCarrinho);
 sectionPaiCarrinho.innerHTML = getSavedCartItems();
 };
 
