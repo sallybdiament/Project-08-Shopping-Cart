@@ -94,11 +94,22 @@ sectionOl.childNodes.forEach((li) => {
 setProducts();
 
 const botao = document.getElementsByClassName('item__add')[0];
+// O console.log abaixo não funciona:
 // console.log(botao);
 // botao.addEventListener('click', () => {
 // console.log('teste');
 // });
 
-// console.log(getSavedCartItems());
+// Limpar lista:
+// Ref: https://cursos.alura.com.br/forum/topico-excluir-todos-os-elementos-com-uma-classe-159597
+function apagar() {
+  const lista = document.getElementsByTagName('li');
+  for (let i = lista.length - 1; i >= 0; i -= 1) {
+    lista[i].remove();
+  }
+}
 
-window.onload = () => {  chamandoGetSavedCart(); };
+const botaoEsvaziarCarrinho = document.getElementsByClassName('empty-cart')[0];
+botaoEsvaziarCarrinho.addEventListener('click', apagar);
+
+window.onload = () => { chamandoGetSavedCart(); };
