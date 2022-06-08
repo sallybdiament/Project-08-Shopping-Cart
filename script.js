@@ -1,25 +1,43 @@
+// Função que cria a imagem do produto com o parametro que é a fonte da imagem:
 const createProductImageElement = (imageSource) => {
+  // constante que cria um elemento que é uma img via Dom:
   const img = document.createElement('img');
+  // incluindo a classe 'item__image' no elemento Dom criado acima:
   img.className = 'item__image';
+  // inclui o parametro desta função como src da imagem:
   img.src = imageSource;
+  // Returna esse elemento img criado com classe 'item__image' e com a foto do produto:
   return img;
 };
 
+// Função que cria um elemento customizado com o 1o parametro que define o tipo de elemento, o 2o parametro que define o nome da classe e o 3o parametro que insere um texto neste elemento:
 const createCustomElement = (element, className, innerText) => {
+  // constante que cria um elemento que será definido pelo 1o parametro via DOM:
   const e = document.createElement(element);
+  // adicionando uma classe a esse elemento criado. A classe adicionada é o 2o parametro:
   e.className = className;
+  // adiciona um texto ao elemento criado. O texto adicionado é o 3o parametro:
   e.innerText = innerText;
   return e;
 };
 
-// Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement://
+// Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement, essa função será chamada dentro do evento de clique (que é a LI que será clicada)://
 const cartItemClickListener = (event) => {
-event.target.remove();
+// event.target: vai ser a LI criada no carrinho de compras.
+// Pega o evento do clique (que é a LI criada no carrinho de compras) e remove ele:
+  event.target.remove();
+  // console.log(event.target);
+ 
 const paiDoEventoLi = event.target.parentElement;
-saveCartItems(paiDoEventoLi.innerHTML);
+console.log(paiDoEventoLi);
+// saveCartItems(paiDoEventoLi.innerHTML);
 };
 
-// Essa função já veio no projeto e ela cria os itens do carrinho de compras e aciona a função para apagar o item quando ele for clicado:  
+// Essa função já veio no projeto:
+// 1o - ela cria as lis que são cada item (cada computador) do carrinho de compras.
+// 2o - ela inclui a classe 'cart__item' em todas as lis criadas.
+// 3o - ela inclui o conteúdo dessas lis através do innerText e de acordo com os parâmetros passados para a função.
+// 4o - adiciona um escutador de evento (addEventListener) na li e com um 'click' chama a função  cartItemClickListener (função para apagar a li (o computador do carrinho) quando ele for clicado):  
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
