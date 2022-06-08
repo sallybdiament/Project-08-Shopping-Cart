@@ -34,15 +34,16 @@ console.log(paiDoEventoLi);
 };
 
 // Essa função já veio no projeto:
-// 1o - ela cria as lis que são cada item (cada computador) do carrinho de compras.
-// 2o - ela inclui a classe 'cart__item' em todas as lis criadas.
-// 3o - ela inclui o conteúdo dessas lis através do innerText e de acordo com os parâmetros passados para a função.
-// 4o - adiciona um escutador de evento (addEventListener) na li e com um 'click' chama a função  cartItemClickListener (função para apagar a li (o computador do carrinho) quando ele for clicado):  
 const createCartItemElement = ({ sku, name, salePrice }) => {
+ // 1o - ela cria as lis que são cada item (cada computador) do carrinho de compras.
   const li = document.createElement('li');
+  // 2o - ela inclui a classe 'cart__item' em todas as lis criadas.
   li.className = 'cart__item';
+  // 3o - ela inclui o conteúdo dessas lis através do innerText e de acordo com os parâmetros passados para a função.
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // 4o - adiciona um escutador de evento (addEventListener) na li e com um 'click' chama a função  cartItemClickListener (função para apagar a li (o computador do carrinho) quando ele for clicado):
   li.addEventListener('click', cartItemClickListener);
+  // 5o - por fim, retorna a Li criada nesta função que é o que vai estar no carrinho de compras:
   return li;
 };
 
