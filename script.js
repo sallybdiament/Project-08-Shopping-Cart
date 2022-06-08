@@ -14,9 +14,8 @@ const createCustomElement = (element, className, innerText) => {
 
 // Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement://
 const cartItemClickListener = (event) => {
-// event.preventDefault();
-  const paiDoEventoLi = event.target.parentElement;
-  event.target.remove();
+event.target.remove();
+const paiDoEventoLi = event.target.parentElement;
 saveCartItems(paiDoEventoLi.innerHTML);
 };
 
@@ -83,10 +82,23 @@ sectionPai.appendChild(createProductItemElement(produto));
 };
 
 const chamandoGetSavedCart = () => {
-const sectionPaiCarrinho = document.getElementsByClassName('cart__items')[0];
-sectionPaiCarrinho.innerHTML = getSavedCartItems();
+const sectionOl = document.getElementsByClassName('cart__items')[0];
+sectionOl.innerHTML = getSavedCartItems();
+// console.log(sectionOl.childNodes);
+// Incluindo o evento de apagar nos filhos da Ol resgatada do localStorage: 
+sectionOl.childNodes.forEach((li) => {
+  li.addEventListener('click', cartItemClickListener);
+});
 };
+
+setProducts();
+
+const botao = document.getElementsByClassName('item__add')[0];
+// console.log(botao);
+// botao.addEventListener('click', () => {
+// console.log('teste');
+// });
 
 // console.log(getSavedCartItems());
 
-window.onload = () => { setProducts(); chamandoGetSavedCart(); };
+window.onload = () => {  chamandoGetSavedCart(); };
