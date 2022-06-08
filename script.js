@@ -93,7 +93,7 @@ sectionOl.childNodes.forEach((li) => {
 
 setProducts();
 
-const botao = document.getElementsByClassName('item__add')[0];
+// const botao = document.getElementsByClassName('item__add')[0];
 // O console.log abaixo não funciona:
 // console.log(botao);
 // botao.addEventListener('click', () => {
