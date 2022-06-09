@@ -93,9 +93,12 @@ section.appendChild(botao);
 };
 // o retorno da função acima é cada nova section que é criada no lado esquerdo da página com os computadores a venda.
 
+const loader = createCustomElement('span', 'loading', 'Carregando');
+
 // Eu criei essa função para buscar na API os produtos de 'computador' e usar o destructuring para pegar as infos que queremos e com a createProductItemElement() jogamos a info na página:
 const setProducts = async () => {
   const sectionPai = document.getElementsByClassName('items')[0];
+  sectionPai.appendChild(loader);
   const productsComputadores = await fetchProducts('computador');
   // depois de buscar os produtos na api, ele passa um por um pegando os dados que queremos que apareça na tela (e que serão usados como parametro na função createProductItemElement):
   productsComputadores.results.forEach((computador) => {
@@ -109,6 +112,7 @@ const setProducts = async () => {
   };
 // console.log(produto);
 sectionPai.appendChild(createProductItemElement(produto));
+loader.remove();
 });
 };
 
