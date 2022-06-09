@@ -28,8 +28,8 @@ const cartItemClickListener = (event) => {
   event.target.remove();
   // console.log(event.target);
  
-const paiDoEventoLi = event.target.parentElement;
-console.log(paiDoEventoLi);
+// const paiDoEventoLi = event.target.parentElement;
+// console.log(paiDoEventoLi);
 // saveCartItems(paiDoEventoLi.innerHTML);
 };
 
@@ -49,25 +49,33 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 
 // Essa função já seleciona o Id do item pela classe 'item_sku' e depois usa o fetch para adicionar ao carrinho de compras:
 const getSkuFromProductItem = async (item) => {
+  // Essa constante é o id do computador que está na lista de produtos da página.
   const IdItem = item.querySelector('span.item__sku').innerText;
-  const sectionPaiCarrinho = document.getElementsByClassName('cart__items')[0];
+  // console.log(IdItem);
+  // Essa constante é a ol que será o pai das lis com os computadores escolhidos:
+  const olPaiCarrinho = document.getElementsByClassName('cart__items')[0];
+  // Essa variável vai chamar a função fetchItem que busca os itens na API do mercado livre recebendo como parametro o id do computador:
   const productsComputadores = await fetchItem(IdItem);
+  // Utilizei destructuring para pegar do objeto da api os valores das chaves id, title e price e depois fazemos o objeto conforme pede para ser o parametro da função createCartItemElement:
   const { id, title, price } = productsComputadores;
   const produto = {
     sku: id,
     name: title,
     salePrice: price,
   };
-  // console.log(createCartItemElement(produto));
-sectionPaiCarrinho.appendChild(createCartItemElement(produto));
-saveCartItems(sectionPaiCarrinho.innerHTML);
-// console.log(sectionPaiCarrinho.innerHTML);
+  // console.log(createCartItemElement(produto)); // Chamamos a função createCartItemElement que cria as lis e colocamos as lis como filhas da constante criada para capturar a ol:
+olPaiCarrinho.appendChild(createCartItemElement(produto));
+saveCartItems(olPaiCarrinho.innerHTML);
+// console.log(olPaiCarrinho.innerHTML); Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
 };
 
-// Essa função é chamada para adicionar os produtos da API na página:
+// Essa função é chamada para adicionar os produtos da API no lado esquerdo da página:
 const createProductItemElement = ({ sku, name, image }) => {
+// constante que cria uma seção:
   const section = document.createElement('section');
+  // atribui a classe 'item'para essa seção criada:
   section.className = 'item';
+ // Dentro dessa seção appendemos os filhos chamando as primeiras funções que criam elementros (createCustomElement) e a imagem (createProductImageElement) com os parametros desejados e que serão o título, a descrição e a foto do computador:
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -76,20 +84,23 @@ const createProductItemElement = ({ sku, name, image }) => {
   // Aqui eu usei o appendChild do butão para já adicionar o evento de clique e levar ele para o carrinho de compras:
   const botao = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   botao.addEventListener('click', (event) => {
-  // console.log(event.target.parentNode); 
+    // console.log(event.target.parentNode); O event.target.parentNode é toda a sessão que é pai do botão, ou seja, toda a seção com as informações do computador criadas acima: sku, nome, imagem e o próprio botão:
   getSkuFromProductItem(event.target.parentNode);
 });
 section.appendChild(botao);
   return section;
 };
+// o retorno da função acima é cada nova section que é criada no lado esquerdo da página com os computadores a venda.
 
 // Eu criei essa função para buscar na API os produtos de 'computador' e usar o destructuring para pegar as infos que queremos e com a createProductItemElement() jogamos a info na página:
 const setProducts = async () => {
   const sectionPai = document.getElementsByClassName('items')[0];
   const productsComputadores = await fetchProducts('computador');
+  // depois de buscar os produtos na api, ele passa um por um pegando os dados que queremos que apareça na tela (e que serão usados como parametro na função createProductItemElement):
   productsComputadores.results.forEach((computador) => {
     const { id, title, thumbnail } = computador;
   // console.log(id);
+  // poderia também ter usado 'sku: comutador.id' no lugar do destructuring acima:
     const produto = {
       sku: id,
     name: title,
@@ -100,8 +111,10 @@ sectionPai.appendChild(createProductItemElement(produto));
 });
 };
 
+// Função que resgata os itens do localStorage ao recarregar a página:
 const chamandoGetSavedCart = () => {
 const sectionOl = document.getElementsByClassName('cart__items')[0];
+// Aqui inserimos no html da Ol o que a função de localStorage.getItem resgatou (ou seja, as lis que estavam no carrinho quando a página foi fechada):
 sectionOl.innerHTML = getSavedCartItems();
 // console.log(sectionOl.childNodes);
 // Incluindo o evento de apagar nos filhos da Ol resgatada do localStorage: 
@@ -109,8 +122,6 @@ sectionOl.childNodes.forEach((li) => {
   li.addEventListener('click', cartItemClickListener);
 });
 };
-
-setProducts();
 
 // const botao = document.getElementsByClassName('item__add')[0];
 // O console.log abaixo não funciona:
@@ -131,4 +142,4 @@ function apagar() {
 const botaoEsvaziarCarrinho = document.getElementsByClassName('empty-cart')[0];
 botaoEsvaziarCarrinho.addEventListener('click', apagar);
 
-window.onload = () => { chamandoGetSavedCart(); };
+window.onload = () => { chamandoGetSavedCart(); setProducts(); };
