@@ -48,8 +48,8 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 };
 
 // Essa função já seleciona o Id do item pela classe 'item_sku' e depois usa o fetch para adicionar ao carrinho de compras:
+ // A 1a constante (IdItem) é o id do computador que está na lista de produtos da página.
 const getSkuFromProductItem = async (item) => {
-  // Essa constante é o id do computador que está na lista de produtos da página.
   const IdItem = item.querySelector('span.item__sku').innerText;
   // console.log(IdItem);
   // Essa constante é a ol que será o pai das lis com os computadores escolhidos:
@@ -66,7 +66,8 @@ const getSkuFromProductItem = async (item) => {
   // console.log(createCartItemElement(produto)); // Chamamos a função createCartItemElement que cria as lis e colocamos as lis como filhas da constante criada para capturar a ol:
 olPaiCarrinho.appendChild(createCartItemElement(produto));
 saveCartItems(olPaiCarrinho.innerHTML);
-// console.log(olPaiCarrinho.innerHTML); Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
+console.log(olPaiCarrinho); 
+// Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
 };
 
 // Essa função é chamada para adicionar os produtos da API no lado esquerdo da página:
