@@ -66,9 +66,9 @@ const getSkuFromProductItem = async (item) => {
   // console.log(createCartItemElement(produto)); // Chamamos a função createCartItemElement que cria as lis e colocamos as lis como filhas da constante criada para capturar a ol:
 olPaiCarrinho.appendChild(createCartItemElement(produto));
 saveCartItems(olPaiCarrinho.innerHTML);
-console.log(olPaiCarrinho); 
-// Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
 };
+// console.log(olPaiCarrinho.innerText); 
+// Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
 
 // Essa função é chamada para adicionar os produtos da API no lado esquerdo da página:
 const createProductItemElement = ({ sku, name, image }) => {

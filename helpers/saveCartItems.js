@@ -1,7 +1,7 @@
 const saveCartItems = (parametroOl) => {
-  if (!parametroOl) {
-   return localStorage.removeItem('cartItems');
-  }
+  // if (!parametroOl) {
+  //  return localStorage.removeItem('cartItems');
+  // }
   localStorage.setItem('cartItems', parametroOl);
   // console.log(parametroOl);
 };
