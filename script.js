@@ -24,29 +24,6 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
-// Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement, essa função será chamada dentro do evento de clique (que é a LI que será clicada)://
-const cartItemClickListener = (event) => {
-// console.log(event.target.innerHTML);
-  // event.target: vai ser a LI criada no carrinho de compras.
-// Pega o evento do clique (que é a LI criada no carrinho de compras) e remove ele:
-// console.log(event.target.innerText.split(' '));
-const liEmArray = event.target.innerText.split(' ');
- const p = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
-//  const pRound = Math.round(p * 100) / 100;
-const paiDoEventoLi = event.target.parentElement;
-// console.log(paiDoEventoLi.parentElement);
-// Aqui a ordem é fundamental: primeiro faz a constante paiDoEventoLi que captura a Ol para depois apagar a li (o item do carrinho) que for clicado e só depois roda a saveCartItems para salvar no localStorage sem o item q foi excluído:
-event.target.remove();
-saveCartItems(paiDoEventoLi.innerHTML);
-const totalCart = document.getElementsByClassName(t)[0];
-totalCart.innerText = document.getElementsByClassName(t)[0].innerText - p;
-};
-
-const cartTotalValue = () => {  
-  const sectionCart = document.getElementsByClassName('cart')[0];
-sectionCart.appendChild(createCustomElement('p', t, 0));
-};
-
 const soma2 = () => {
   let total = 0;
   const lista = document.getElementsByTagName('li');
@@ -64,8 +41,33 @@ for (let i = lista.length - 1; i >= 0; i -= 1) {
   total = precoEmNumero + total;
 }
 const cartTotal = document.getElementsByTagName('p')[0];
-// const cartTotalRound = Math.round(total, 2); 
-cartTotal.innerText = cartTotal;
+cartTotal.innerText = total;
+// return total;
+};
+// const cartTotalRound = Math.round(total * 100) / 100; 
+
+// Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement, essa função será chamada dentro do evento de clique (que é a LI que será clicada)://
+const cartItemClickListener = (event) => {
+// console.log(event.target.innerHTML);
+  // event.target: vai ser a LI criada no carrinho de compras.
+// Pega o evento do clique (que é a LI criada no carrinho de compras) e remove ele:
+// console.log(event.target.innerText.split(' '));
+// const liEmArray = event.target.innerText.split(' ');
+//  const p = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
+//  const pRound = Math.round(p * 100) / 100;
+const paiDoEventoLi = event.target.parentElement;
+// console.log(paiDoEventoLi.parentElement);
+// Aqui a ordem é fundamental: primeiro faz a constante paiDoEventoLi que captura a Ol para depois apagar a li (o item do carrinho) que for clicado e só depois roda a saveCartItems para salvar no localStorage sem o item q foi excluído:
+event.target.remove();
+saveCartItems(paiDoEventoLi.innerHTML);
+// const totalCart = document.getElementsByClassName(t)[0];
+// totalCart.innerText = document.getElementsByClassName(t)[0].innerText - p;
+soma2();
+};
+
+const cartTotalValue = () => {  
+  const sectionCart = document.getElementsByClassName('cart')[0];
+sectionCart.appendChild(createCustomElement('p', t, 0));
 };
 
 // Essa função já veio no projeto:
