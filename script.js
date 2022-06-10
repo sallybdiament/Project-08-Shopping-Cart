@@ -1,6 +1,20 @@
 // Definindo uma constante do valor total:
 const t = 'total-price';
 
+const round = (num, places) => {
+	if (!("" + num).includes("e")) {
+		return +(Math.round(num + "e+" + places)  + "e-" + places);
+	} else {
+		let arr = ("" + num).split("e");
+		let sig = ""
+		if (+arr[1] + places > 0) {
+			sig = "+";
+		}
+
+		return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + places)) + "e-" + places);
+	}
+}
+
 // Função que cria a imagem do produto com o parametro que é a fonte da imagem:
 const createProductImageElement = (imageSource) => {
   // constante que cria um elemento que é uma img via Dom:
@@ -29,12 +43,12 @@ const cartItemClickListener = (event) => {
 // console.log(event.target.innerHTML);
   // event.target: vai ser a LI criada no carrinho de compras.
 // Pega o evento do clique (que é a LI criada no carrinho de compras) e remove ele:
-console.log(event.target.innerText.split(' '));
+// console.log(event.target.innerText.split(' '));
 const liEmArray = event.target.innerText.split(' ');
  const p = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
+//  const pRound = Math.round(p * 100) / 100;
 const paiDoEventoLi = event.target.parentElement;
 // console.log(paiDoEventoLi.parentElement);
-
 // Aqui a ordem é fundamental: primeiro faz a constante paiDoEventoLi que captura a Ol para depois apagar a li (o item do carrinho) que for clicado e só depois roda a saveCartItems para salvar no localStorage sem o item q foi excluído:
 event.target.remove();
 saveCartItems(paiDoEventoLi.innerHTML);
@@ -59,13 +73,13 @@ for (let i = lista.length - 1; i >= 0; i -= 1) {
   // console.log(typeof preco);
  const precoEmNumero = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
   // console.log(precoEmNumero);
+  // const precoEmNumeroRound = Math.round(precoEmNumero * 100) / 100;
+  // console.log(precoEmNumeroRound);
   total = precoEmNumero + total;
-  // return total;
 }
-// return total;
 const cartTotal = document.getElementsByTagName('p')[0];
-cartTotal.innerText = total;
-// console.log(cartTotal);
+// const cartTotalRound = Math.round(total, 2); 
+cartTotal.innerText = cartTotal;
 };
 
 // Essa função já veio no projeto:
@@ -169,6 +183,8 @@ sectionOl.innerHTML = getSavedCartItems();
 sectionOl.childNodes.forEach((li) => {
   li.addEventListener('click', cartItemClickListener);
 });
+cartTotalValue();
+soma2();
 };
 
 // const botao = document.getElementsByClassName('item__add')[0];
@@ -194,4 +210,5 @@ function apagar() {
 const botaoEsvaziarCarrinho = document.getElementsByClassName('empty-cart')[0];
 botaoEsvaziarCarrinho.addEventListener('click', apagar);
 
-window.onload = () => { chamandoGetSavedCart(); setProducts(); cartTotalValue(); };
+// cartTotalValue();
+window.onload = () => { chamandoGetSavedCart(); setProducts(); };
