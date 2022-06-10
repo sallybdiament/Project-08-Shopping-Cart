@@ -1,3 +1,6 @@
+// Definindo uma constante do valor total:
+const t = 'total-price';
+
 // Função que cria a imagem do produto com o parametro que é a fonte da imagem:
 const createProductImageElement = (imageSource) => {
   // constante que cria um elemento que é uma img via Dom:
@@ -23,19 +26,51 @@ const createCustomElement = (element, className, innerText) => {
 
 // Essa função serve para remover o item do carrinho de compras quando ele for clicado de acordo com a função createCartItemElement, essa função será chamada dentro do evento de clique (que é a LI que será clicada)://
 const cartItemClickListener = (event) => {
-// event.target: vai ser a LI criada no carrinho de compras.
+// console.log(event.target.innerHTML);
+  // event.target: vai ser a LI criada no carrinho de compras.
 // Pega o evento do clique (que é a LI criada no carrinho de compras) e remove ele:
-  event.target.remove();
-  // console.log(event.target);
- 
-// const paiDoEventoLi = event.target.parentElement;
-// console.log(paiDoEventoLi);
-// saveCartItems(paiDoEventoLi.innerHTML);
+console.log(event.target.innerText.split(' '));
+const liEmArray = event.target.innerText.split(' ');
+ const p = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
+const paiDoEventoLi = event.target.parentElement;
+// console.log(paiDoEventoLi.parentElement);
+
+// Aqui a ordem é fundamental: primeiro faz a constante paiDoEventoLi que captura a Ol para depois apagar a li (o item do carrinho) que for clicado e só depois roda a saveCartItems para salvar no localStorage sem o item q foi excluído:
+event.target.remove();
+saveCartItems(paiDoEventoLi.innerHTML);
+const totalCart = document.getElementsByClassName(t)[0];
+totalCart.innerText = document.getElementsByClassName(t)[0].innerText - p;
+};
+
+const cartTotalValue = () => {  
+  const sectionCart = document.getElementsByClassName('cart')[0];
+sectionCart.appendChild(createCustomElement('p', t, 0));
+};
+
+const soma2 = () => {
+  let total = 0;
+  const lista = document.getElementsByTagName('li');
+for (let i = lista.length - 1; i >= 0; i -= 1) {
+  // console.log(lista[i]);
+  // console.log(lista[i].innerText);
+  const liEmArray = lista[i].innerText.split(' ');
+  // console.log(liEmArray);
+  // console.log(liEmArray[liEmArray.length-1]);
+  // console.log(typeof preco);
+ const precoEmNumero = parseFloat(liEmArray[liEmArray.length - 1].replace('$', ''));
+  // console.log(precoEmNumero);
+  total = precoEmNumero + total;
+  // return total;
+}
+// return total;
+const cartTotal = document.getElementsByTagName('p')[0];
+cartTotal.innerText = total;
+// console.log(cartTotal);
 };
 
 // Essa função já veio no projeto:
 const createCartItemElement = ({ sku, name, salePrice }) => {
- // 1o - ela cria as lis que são cada item (cada computador) do carrinho de compras.
+  // 1o - ela cria as lis que são cada item (cada computador) do carrinho de compras.
   const li = document.createElement('li');
   // 2o - ela inclui a classe 'cart__item' em todas as lis criadas.
   li.className = 'cart__item';
@@ -43,6 +78,9 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // 4o - adiciona um escutador de evento (addEventListener) na li e com um 'click' chama a função  cartItemClickListener (função para apagar a li (o computador do carrinho) quando ele for clicado):
   li.addEventListener('click', cartItemClickListener);
+  // let soma = 0;
+  // soma += salePrice;
+  // console.log(soma);
   // 5o - por fim, retorna a Li criada nesta função que é o que vai estar no carrinho de compras:
   return li;
 };
@@ -66,13 +104,16 @@ const getSkuFromProductItem = async (item) => {
   // console.log(createCartItemElement(produto)); // Chamamos a função createCartItemElement que cria as lis e colocamos as lis como filhas da constante criada para capturar a ol:
 olPaiCarrinho.appendChild(createCartItemElement(produto));
 saveCartItems(olPaiCarrinho.innerHTML);
+soma2();
 };
+// const sectionCart = document.getElementsByClassName('cart')[0];
+// sectionCart.appendChild(createCustomElement('span', 'total-price', price));
 // console.log(olPaiCarrinho.innerText); 
 // Chamamos a função saveCartItems que salva no localStorage o conteúdo html da ol.
 
 // Essa função é chamada para adicionar os produtos da API no lado esquerdo da página:
+// constante section cria uma seção:
 const createProductItemElement = ({ sku, name, image }) => {
-// constante que cria uma seção:
   const section = document.createElement('section');
   // atribui a classe 'item'para essa seção criada:
   section.className = 'item';
@@ -81,18 +122,20 @@ const createProductItemElement = ({ sku, name, image }) => {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   // section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   // Aqui eu usei o appendChild do butão para já adicionar o evento de clique e levar ele para o carrinho de compras:
   const botao = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   botao.addEventListener('click', (event) => {
-    // console.log(event.target.parentNode); O event.target.parentNode é toda a sessão que é pai do botão, ou seja, toda a seção com as informações do computador criadas acima: sku, nome, imagem e o próprio botão:
   getSkuFromProductItem(event.target.parentNode);
+  // console.log(event.target.parentNode);
+  // somaCarrinho = 
 });
 section.appendChild(botao);
   return section;
 };
+// O event.target.parentNode é toda a sessão que é pai do botão, ou seja, toda a seção com as informações do computador criadas acima: sku, nome, imagem e o próprio botão:
 // o retorno da função acima é cada nova section que é criada no lado esquerdo da página com os computadores a venda.
 
+// Usei a função createCustomElement para crias um elemento span com a classe loading e que aparece escrito 'carregando' que será usado antes da requisição a API:
 const loader = createCustomElement('span', 'loading', 'Carregando');
 
 // Eu criei essa função para buscar na API os produtos de 'computador' e usar o destructuring para pegar as infos que queremos e com a createProductItemElement() jogamos a info na página:
@@ -139,12 +182,16 @@ sectionOl.childNodes.forEach((li) => {
 // Ref: https://cursos.alura.com.br/forum/topico-excluir-todos-os-elementos-com-uma-classe-159597
 function apagar() {
   const lista = document.getElementsByTagName('li');
+  const paiDoEventoLi = document.getElementsByClassName('cart__items')[0];
+  // console.log(paiDoEventoLi);
   for (let i = lista.length - 1; i >= 0; i -= 1) {
     lista[i].remove();
   }
+  saveCartItems(paiDoEventoLi.innerHTML);
+  document.getElementsByClassName('total-price')[0].innerText = 0;
 }
 
 const botaoEsvaziarCarrinho = document.getElementsByClassName('empty-cart')[0];
 botaoEsvaziarCarrinho.addEventListener('click', apagar);
 
-window.onload = () => { chamandoGetSavedCart(); setProducts(); };
+window.onload = () => { chamandoGetSavedCart(); setProducts(); cartTotalValue(); };
